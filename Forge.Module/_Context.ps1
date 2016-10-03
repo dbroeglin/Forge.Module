@@ -1,0 +1,1 @@
+$Script:SourceRoot = Join-Path $PSScriptRoot Templates
