@@ -17,7 +17,7 @@ function <%= $Name %> {
     [CmdletBinding()]
     Param(
 <% $Parameters | ForEach { $i = 1 } { %>
-       <%= $_ %><%= if ($i++ -lt $Parameters.length) { "," } %>
+       $<%= $_ %><%= if ($i++ -lt $Parameters.length) { "," } %>
 <% } %>
     )
     Begin {
