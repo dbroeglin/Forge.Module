@@ -46,18 +46,15 @@ function New-ForgeModuleFunction {
         [switch]$NoExport
     )
     Begin {
-        $DestinationPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
-        $Context = @{
-            SourceRoot      = $Script:SourceRoot
-            # TODO: handle $Path
-            DestinationPath = $DestinationPath
-        }  
+        Initialize-ForgeContext -SourceRoot $Script:SourceRoot `
+            -DestinationPath $Path
+
         if (-not $ModuleName) {
             $ModuleName = Split-Path -Leaf (Get-Location)
         }
     }
     Process {  
-        $PsdPath = Join-Path $DestinationPath (Join-Path $ModuleName "$ModuleName.psd1")
+        $PsdPath = Join-Path (Get-ForgeContext).DestinationPath (Join-Path $ModuleName "$ModuleName.psd1")
         if (-not (Test-Path -PathType Container $ModuleName)) {
             throw "Module directory '$ModuleName' does not exist"
         }
@@ -68,7 +65,7 @@ function New-ForgeModuleFunction {
             throw "PSD file '$PsdPath' does not exist"
         }
 
-        $Context.Binding = @{
+        Set-ForgeBinding @{
             Name       = $Name
             ModuleName = $ModuleName
             Parameters = $Parameter
@@ -76,8 +73,8 @@ function New-ForgeModuleFunction {
 
         $FunctionFilename = "$Name.ps1"
         $TestsFilename    = "$Name.Tests.ps1"
-        Copy-ForgeFile -Source "Function.ps1" -Dest (Join-Path $ModuleName $FunctionFilename) @Context
-        Copy-ForgeFile -Source "Function.Tests.ps1" -Dest (Join-Path Tests $TestsFilename) @Context
+        Copy-ForgeFile -Source "Function.ps1" -Dest (Join-Path $ModuleName $FunctionFilename)
+        Copy-ForgeFile -Source "Function.Tests.ps1" -Dest (Join-Path Tests $TestsFilename)
         if (!$NoExport) {
             Update-ModuleManifest -Path $PsdPath -FunctionsToExport (
                 (Import-PowerShellDataFile $PsdPath)["FunctionsToExport"] + $Name

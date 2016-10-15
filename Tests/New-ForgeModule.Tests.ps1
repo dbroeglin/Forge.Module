@@ -1,6 +1,8 @@
 Set-PSDebug -Strict
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-Import-Module "Forge"
+if (!(Get-Module Forge)) {
+    Import-Module "Forge"
+}
 . "$PSScriptRoot\..\Forge.Module\_context.ps1"
 . "$PSScriptRoot\..\Forge.Module\$sut"
 

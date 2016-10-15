@@ -52,10 +52,8 @@ function New-ForgeModule {
         [String]$GitCommand = "git"
     )
     Begin {
-        $Context = @{
-            SourceRoot      = $Script:SourceRoot
-            DestinationPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
-        }        
+        Initialize-ForgeContext -SourceRoot $Script:SourceRoot `
+            -DestinationPath $Path
     }
     Process {
         if (!$PSCmdlet.ShouldProcess($Name, "Create module")) {
@@ -63,9 +61,9 @@ function New-ForgeModule {
         }
         $Author = Get-ValueOrGitOrDefault $Author "user.user" "John Doe"
         $Email  = Get-ValueOrGitOrDefault $Email "user.email" "JohnDoe@example.com"
-
         $CopyrightYear = Get-Date -UFormat %Y
-        $Context.Binding = @{
+
+        Set-ForgeBinding @{
             Name          = $Name
             Description   = $Description
             Author        = $Author
@@ -73,21 +71,21 @@ function New-ForgeModule {
             CopyrightYear = $CopyrightYear
         }
 
-        New-ForgeDirectory @Context
-        Copy-ForgeFile -Source "README.md" @Context
+        New-ForgeDirectory 
+        Copy-ForgeFile -Source "README.md" 
 
-        New-ForgeDirectory -Dest $Name @Context
-        Copy-ForgeFile -Source "Module.psm1" -Dest "$Name\$Name.psm1" @Context
+        New-ForgeDirectory -Dest $Name 
+        Copy-ForgeFile -Source "Module.psm1" -Dest "$Name\$Name.psm1" 
 
         New-ModuleManifest -Path "$Path\$Name\$Name.psd1" -RootModule "$Name.psm1" `
             -ModuleVersion "0.1.0" -Description $Description -Author $Author `
             -Copyright "(c) $CopyrightYear $Author. All rights reserved."
 
-        New-ForgeDirectory -Dest "Tests" @Context
-        Copy-ForgeFile -Source "Manifest.Tests.ps1" -Dest "Tests" @Context
+        New-ForgeDirectory -Dest "Tests" 
+        Copy-ForgeFile -Source "Manifest.Tests.ps1" -Dest "Tests" 
 
         if ($License) {
-            Copy-ForgeFile -Source "LICENSE.$License" -Dest "LICENSE" @Context
+            Copy-ForgeFile -Source "LICENSE.$License" -Dest "LICENSE" 
         }
     }
 }
