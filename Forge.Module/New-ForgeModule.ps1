@@ -16,10 +16,10 @@ limitations under the License.
 function New-ForgeModule {
     <#
     .SYNOPSIS
-        Creates a new module.
+        Generates a new module.
 
     .DESCRIPTION
-        Creates a new skeleton module based on the arguments passed to the function.
+        Generates a new skeleton module based on the arguments passed to the function.
 
     .EXAMPLE
         New-ForgeModule -Name MyModule
@@ -31,7 +31,20 @@ function New-ForgeModule {
         The path where the new module is created.
 
     .PARAMETER Description
-        The description of new module.   
+        Description of the generated module.   
+
+    .PARAMETER License
+        License to add to the generated module.
+
+        Allowed values are:
+        - Apache : Apache License
+        - MIT : MIT License   
+
+    .PARAMETER Author
+        Name to use as module author.
+
+    .PARAMETER Email
+        Email to use for the generated module.   
     #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Low')]
     Param(
@@ -42,14 +55,12 @@ function New-ForgeModule {
 
         [String]$Description = "$Name module",
 
-        [ValidateSet('Apache', 'MIT')]
+        [ValidateSet('', 'Apache', 'MIT')]
         [String]$License,
 
         [String]$Author,
 
-        [String]$Email,
-
-        [String]$GitCommand = "git"
+        [String]$Email
     )
     Begin {
         Initialize-ForgeContext -SourceRoot $Script:SourceRoot `
