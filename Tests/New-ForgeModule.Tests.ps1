@@ -71,4 +71,13 @@ Describe "New-ForgeModule" {
             "$TestPath\LICENSE" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
         }
     }
+
+    Context "-Git" {
+        New-ForgeModule @Params -Git
+
+        It "should create a .gitignore file" {
+            "$TestPath\.gitignore" | Should Exist
+            "$TestPath\.gitignore" | Should Contain "https://github.com/github/gitignore "
+        }
+    }    
 }

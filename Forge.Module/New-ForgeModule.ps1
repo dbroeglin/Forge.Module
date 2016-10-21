@@ -44,7 +44,11 @@ function New-ForgeModule {
         Name to use as module author.
 
     .PARAMETER Email
-        Email to use for the generated module.   
+        Email to use for the generated module.
+
+    .PARAMETER Git
+        Add a default .gitignore file to the generated module.
+
     #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Low')]
     Param(
@@ -60,7 +64,9 @@ function New-ForgeModule {
 
         [String]$Author,
 
-        [String]$Email
+        [String]$Email,
+
+        [Switch]$Git
     )
     Begin {
         Initialize-ForgeContext -SourceRoot $Script:SourceRoot `
@@ -97,6 +103,9 @@ function New-ForgeModule {
 
         if ($License) {
             Copy-ForgeFile -Source "LICENSE.$License" -Dest "LICENSE" 
+        }
+        if ($Git) {
+            Copy-ForgeFile -Source "DotGitIgnore" -Dest ".gitignore"             
         }
     }
 }
