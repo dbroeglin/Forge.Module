@@ -27,6 +27,16 @@ function New-ForgeModuleFunction {
     .PARAMETER Name
         The name of the new function.
 
+    .PARAMETER Path
+        The path where the function should be generated.
+
+    .PARAMETER ModuleName
+        The name of the module in which the function is generated if it is not the
+        same as the parent directory name.
+
+    .PARAMETER Parameter
+        An array of parameter names to generate for the new function.
+
     .PARAMETER Export
         If $True the function will be added to the list of exported functions in the PSD1 file.
 

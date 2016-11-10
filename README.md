@@ -1,6 +1,12 @@
 # Forge Generator for PowerShell modules
 
 This module contains Forge generators for PowerShell modules.
+`New-ForgeModule` generates a new module and `New-FOrgeModuleFunction` generates a new
+function inside an already created module.
+
+The generator is still quite new (and probably a bit opinionated) parts of the structure
+come from the excelent https://github.com/devblackops/NetScaler module and quite a bit of 
+the rest comes from another similar project https://github.com/PowerShell/Plaster
 
 # Installation
 
@@ -40,6 +46,10 @@ Which produces the following result:
     └── Tests
         ├── Manifest.Tests.ps1
         └── New-PoshTodo.Tests.ps1
+
+Adding the `-Editor VSCode` parameter will generate workspace configuration files for the
+_Visual Studio Code_ editor. For instance, it will generate a list of task that allow to 
+run tests and other lifecycle operations from inside the editor.
 
 # Dependencies
 

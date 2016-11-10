@@ -79,5 +79,25 @@ Describe "New-ForgeModule" {
             "$TestPath\.gitignore" | Should Exist
             "$TestPath\.gitignore" | Should Contain "https://github.com/github/gitignore "
         }
-    }    
+    }
+
+    Context "-Editor VSCode" {
+        New-ForgeModule @Params -Editor VSCode
+
+        It "should create a .vscode directory" {
+            "$TestPath\.vscode" | Should Exist
+        }
+
+        It "should create a .vscode\settings.json file" {
+            "$TestPath\.vscode\settings.json" | Should Exist
+        }
+        
+        It "should create a .vscode\tasks.json file" {
+            "$TestPath\.vscode\tasks.json" | Should Exist
+        }
+
+        It "should create a ScriptAnalyzerSettings.psd1 file" {
+            "$TestPath\ScriptAnalyzerSettings.psd1" | Should Exist
+        }
+    }            
 }

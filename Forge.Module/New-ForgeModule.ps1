@@ -62,6 +62,9 @@ function New-ForgeModule {
         [ValidateSet('', 'Apache', 'MIT')]
         [String]$License,
 
+        [ValidateSet('', 'VSCode')]
+        [String]$Editor,
+
         [String]$Author,
 
         [String]$Email,
@@ -106,6 +109,14 @@ function New-ForgeModule {
         }
         if ($Git) {
             Copy-ForgeFile -Source "DotGitIgnore" -Dest ".gitignore"             
+        }
+        switch ($Editor) {
+            "VSCode" {
+                New-ForgeDirectory -Dest .vscode
+                Copy-ForgeFile -Source "VSCode.settings.json" -Dest ".vscode\settings.json"
+                Copy-ForgeFile -Source "VSCode.tasks.json" -Dest ".vscode\tasks.json"
+                Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
+            }
         }
     }
 }
