@@ -47,8 +47,20 @@ function New-ForgeModule {
         Email to use for the generated module.
 
     .PARAMETER Git
-        Add a default .gitignore file to the generated module.
+        Optional, if set add a default .gitignore file to the generated module.
 
+    .PARAMETER Editor
+        Optional, editor configuration to setup inside the generated module.
+
+        Allowed values are:
+            - VSCode : Visual Studio Code
+
+    .PARAMETER Build
+        Optional, if set add build support to the module.
+
+        Allowed values are:
+            - PSake : Add PSake build support to the module.
+            - TODO: InvokeBuild : Add InvokeBuild support to the module.
     #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Low')]
     Param(
@@ -62,14 +74,17 @@ function New-ForgeModule {
         [ValidateSet('', 'Apache', 'MIT')]
         [String]$License,
 
-        [ValidateSet('', 'VSCode')]
-        [String]$Editor,
-
         [String]$Author,
 
         [String]$Email,
 
-        [Switch]$Git
+        [Switch]$Git,
+
+        [ValidateSet('', 'VSCode')]
+        [String]$Editor,
+
+        [ValidateSet('', 'PSake')]
+        [String]$Build
     )
     Begin {
         Initialize-ForgeContext -SourceRoot $Script:SourceRoot `
@@ -109,6 +124,14 @@ function New-ForgeModule {
         }
         if ($Git) {
             Copy-ForgeFile -Source "DotGitIgnore" -Dest ".gitignore"             
+        }
+        switch ($Build) {
+            "PSake" {
+                Copy-ForgeFile -Source "build.ps1"
+                Copy-ForgeFile -Source "build.psake.ps1"
+                Copy-ForgeFile -Source "build.settings.ps1"
+                Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
+            }
         }
         switch ($Editor) {
             "VSCode" {
