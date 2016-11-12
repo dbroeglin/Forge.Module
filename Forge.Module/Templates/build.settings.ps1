@@ -14,7 +14,7 @@ Properties {
     $DocsRootDir = "$PSScriptRoot\docs"
     $SrcRootDir  = "$PSScriptRoot\$ModuleName"
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-    $TestRootDir = "$PSScriptRoot\test"
+    $TestRootDir = "$PSScriptRoot\Tests"
 
 
     # The $OutDir is where module files and updatable help files are staged for signing, install and publishing.
