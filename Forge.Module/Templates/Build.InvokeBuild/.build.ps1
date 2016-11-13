@@ -118,23 +118,23 @@ Task Analyze BuildImpl, {
     $analysisResult | Format-Table
     switch ($ScriptAnalysisAction) {
         'Error' {
-            Assert -conditionToCheck (
+            Assert -condition (
                 ($analysisResult | Where-Object Severity -eq 'Error').Count -eq 0
-                ) -failureMessage 'One or more Script Analyzer errors were found. Build cannot continue!'
+                ) -message 'One or more Script Analyzer errors were found. Build cannot continue!'
         }
         'Warning' {
-            Assert -conditionToCheck (
+            Assert -condition (
                 ($analysisResult | Where-Object {
                     $_.Severity -eq 'Warning' -or $_.Severity -eq 'Error'
-                }).Count -eq 0) -failureMessage 'One or more Script Analyzer warnings were found. Build cannot continue!'
+                }).Count -eq 0) -message 'One or more Script Analyzer warnings were found. Build cannot continue!'
         }
         'ReportOnly' {
             return
         }
         default {
-            Assert -conditionToCheck (
+            Assert -condition (
                 $analysisResult.Count -eq 0
-                ) -failureMessage 'One or more Script Analyzer issues were found. Build cannot continue!'
+                ) -message 'One or more Script Analyzer issues were found. Build cannot continue!'
         }
     }
 }
@@ -290,18 +290,18 @@ Task Test Analyze, {
 
         $TestResult = Invoke-Pester @Testing
 
-        Assert -conditionToCheck (
+        Assert -condition (
             $TestResult.FailedCount -eq 0
-        ) -failureMessage "One or more Pester tests failed, build cannot continue."
+        ) -message "One or more Pester tests failed, build cannot continue."
 
         if ($CodeCoverageStop -or ($null -eq $CodeCoverageStop)) {
             $TestCoverage = [int]($TestResult.CodeCoverage.NumberOfCommandsExecuted /
                 $TestResult.CodeCoverage.NumberOfCommandsAnalyzed * 100)
 
             if ($CodeCoverageStop) {
-                Assert -conditionToCheck (
+                Assert -condition (
                     $TestCoverage -gt $CodeCoveragePercentage
-                ) -failureMessage "Pester code coverage test failed. ($TestCoverage% Achieved, $CodeCoveragePercentage% Required.)"
+                ) -message "Pester code coverage test failed. ($TestCoverage% Achieved, $CodeCoveragePercentage% Required.)"
             }
         }
     }
@@ -565,3 +565,4 @@ function RemoveSetting {
         Write-Warning "The build setting file '$Path' has not been created yet."
     }
 }
+
