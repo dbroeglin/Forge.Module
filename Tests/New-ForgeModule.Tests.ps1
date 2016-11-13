@@ -115,10 +115,33 @@ Describe "New-ForgeModule" {
         It "should create a build.settings.ps1 file" {
             "$TestPath\build.settings.ps1" | Should Exist
             "$TestPath\build.settings.ps1" | Should Contain '\$ModuleName = "TestModule"'
+            "$TestPath\build.settings.ps1" | Should Contain '\$SrcRootDir *= *"\$PSScriptRoot\\\$ModuleName"'
         }
 
         It "should create a ScriptAnalyzerSettings.psd1 file" {
             "$TestPath\ScriptAnalyzerSettings.psd1" | Should Exist
         }
-    }            
+    }
+
+    Context "-Build InvokeBuild" {
+        New-ForgeModule @Params -Build InvokeBuild
+
+        It "should create a build.ps1 file" {
+            "$TestPath\build.ps1" | Should Exist
+        }
+        
+        It "should create a .build.ps1 file" {
+            "$TestPath\.build.ps1" | Should Exist
+        }
+
+        It "should create a build.settings.ps1 file" {
+            "$TestPath\build.settings.ps1" | Should Exist
+            "$TestPath\build.settings.ps1" | Should Contain '\$ModuleName = "TestModule"'
+            "$TestPath\build.settings.ps1" | Should Contain '\$SrcRootDir *= *"\$PSScriptRoot/\$ModuleName"'
+        }
+
+        It "should create a ScriptAnalyzerSettings.psd1 file" {
+            "$TestPath\ScriptAnalyzerSettings.psd1" | Should Exist
+        }
+    }             
 }

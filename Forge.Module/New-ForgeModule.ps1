@@ -83,7 +83,7 @@ function New-ForgeModule {
         [ValidateSet('', 'VSCode')]
         [String]$Editor,
 
-        [ValidateSet('', 'PSake')]
+        [ValidateSet('', 'PSake', 'InvokeBuild')]
         [String]$Build
     )
     Begin {
@@ -127,9 +127,15 @@ function New-ForgeModule {
         }
         switch ($Build) {
             "PSake" {
-                Copy-ForgeFile -Source "build.ps1"
-                Copy-ForgeFile -Source "build.psake.ps1"
-                Copy-ForgeFile -Source "build.settings.ps1"
+                Copy-ForgeFile -Source "Build.PSake\build.ps1" -Dest "build.ps1"
+                Copy-ForgeFile -Source "Build.PSake\build.psake.ps1" -Dest "build.psake.ps1"
+                Copy-ForgeFile -Source "Build.PSake\build.settings.ps1" -Dest "build.settings.ps1"
+                Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
+            }
+            "InvokeBuild" {
+                Copy-ForgeFile -Source "Build.InvokeBuild\build.ps1" -Dest "build.ps1"
+                Copy-ForgeFile -Source "Build.InvokeBuild\.build.ps1" -Dest ".build.ps1"
+                Copy-ForgeFile -Source "Build.InvokeBuild\build.settings.ps1" -Dest "build.settings.ps1"
                 Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
             }
         }
