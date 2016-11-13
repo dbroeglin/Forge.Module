@@ -51,11 +51,24 @@ Adding the `-Editor VSCode` parameter will generate workspace configuration file
 _Visual Studio Code_ editor. For instance, it will generate a list of task that allow to 
 run tests and other lifecycle operations from inside the editor.
 
+Depending on your preferences the module can be generated with two different build systems
+(or none if you do not need or want one).
+
+To generate PSake integration:
+
+    New-ForgeModule -Name PoshTodo -Build PSake
+
+To generate InvokeBuild integration:
+
+    New-ForgeModule -Name PoshTodo -Build InvokeBuild
+
 With all options activated we get:
 
     New-ForgeModule -Name PoshTodo -License MIT -Author Léa -Email lea@example.com ``
         -Editor VSCode -Build PSake `
         -Description "A Powershell TODO list handler"
+
+Which would generate the following project:
 
     ./PoshTodo
     ├── LICENSE
