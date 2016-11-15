@@ -50,6 +50,11 @@ Describe "New-ForgeModule" {
             "$TestPath\Tests\Manifest.Tests.ps1" | Should Exist
             "$TestPath\Tests\Manifest.Tests.ps1" | Should Contain "Describe '$Name Manifest"
         }
+
+        It "should create an about file" {
+            "$TestPath\docs\en-US\about_$($Name)_help.txt" | Should Exist
+            "$TestPath\docs\en-US\about_$($Name)_help.txt" | Should Contain "    $Name"
+        }
     }
 
     Context "-License Apache" {
