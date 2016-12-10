@@ -33,8 +33,8 @@ function Generate-Contexts {
         }
 
         It "should add the function to the exported ones" {
-
             $PsdPath = Join-Path $ModulePath "$ModuleName.psd1"
+            Write-Host ((Import-PowerShellDataFile $PsdPath)["FunctionsToExport"] | ConvertTo-Json)
             (Import-PowerShellDataFile $PsdPath)["FunctionsToExport"] | Should Be @($FunctionName)
         }
 
@@ -75,7 +75,9 @@ Describe "New-ForgeModuleFunction ('ModuleName' layout)" {
 
         $ModulePath = New-Item (Join-Path $TestBase $ModuleName) -Type Container
         $TestsPath  = New-Item (Join-path $TestBase Tests) -Type Container
-        New-ModuleManifest "$ModuleName/$ModuleName.psd1"
+        # RootModule is important because it will generate "FunctionsToExport = '*'"
+        # instead of FunctionsToExport = @()
+        New-ModuleManifest "$ModuleName/$ModuleName.psd1" -RootModule "$ModuleName.psm1"
     }
 
     AfterEach {
