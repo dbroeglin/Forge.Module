@@ -52,8 +52,8 @@ Describe "New-ForgeModule" {
         }
 
         It "should create an about file" {
-            "$TestPath\docs\en-US\about_$($Name)_help.txt" | Should Exist
-            "$TestPath\docs\en-US\about_$($Name)_help.txt" | Should Contain "    $Name"
+            "$TestPath\src\en-US\about_$($Name).help.txt" | Should Exist
+            "$TestPath\src\en-US\about_$($Name).help.txt" | Should Contain "    $Name"
         }
     }
 
@@ -83,10 +83,10 @@ Describe "New-ForgeModule" {
     Context "-License Apache" {
         New-ForgeModule @Params -License Apache
 
-        It "should create an Apache LICENSE file" {
-            "$TestPath\LICENSE" | Should Exist
-            "$TestPath\LICENSE" | Should Contain "Apache License"            
-            "$TestPath\LICENSE" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
+        It "should create an Apache LICENSE.txt file" {
+            "$TestPath\LICENSE.txt" | Should Exist
+            "$TestPath\LICENSE.txt" | Should Contain "Apache License"            
+            "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
         }
     }
 
@@ -94,9 +94,9 @@ Describe "New-ForgeModule" {
         New-ForgeModule @Params -License MIT
 
         It "should create a MIT LICENSE file" {
-            "$TestPath\LICENSE" | Should Exist
-            "$TestPath\LICENSE" | Should Contain "MIT License"
-            "$TestPath\LICENSE" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\LICENSE.txt" | Should Exist
+            "$TestPath\LICENSE.txt" | Should Contain "MIT License"
+            "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
         }
     }
 

@@ -34,7 +34,6 @@ function Generate-Contexts {
 
         It "should add the function to the exported ones" {
             $PsdPath = Join-Path $ModulePath "$ModuleName.psd1"
-            Write-Host ((Import-PowerShellDataFile $PsdPath)["FunctionsToExport"] | ConvertTo-Json)
             (Import-PowerShellDataFile $PsdPath)["FunctionsToExport"] | Should Be @($FunctionName)
         }
 

@@ -126,11 +126,11 @@ function New-ForgeModule {
         New-ForgeDirectory -Dest "Tests" 
         Copy-ForgeFile -Source "Manifest.Tests.ps1" -Dest "Tests" 
 
-        New-ForgeDirectory -Dest "docs/en-US"
-        Copy-ForgeFile -Source "docs/en-US/about_Module_help.txt" -Dest "docs/en-US/about_$($Name)_help.txt"
+        New-ForgeDirectory -Dest "$ModuleDir/en-US"
+        Copy-ForgeFile -Source "docs/en-US/about_Module_help.txt" -Dest "$ModuleDir/en-US/about_$($Name).help.txt"
 
         if ($License) {
-            Copy-ForgeFile -Source "LICENSE.$License" -Dest "LICENSE" 
+            Copy-ForgeFile -Source "LICENSE.txt.$License" -Dest "LICENSE.txt" 
         }
         if ($Git) {
             Copy-ForgeFile -Source "DotGitIgnore" -Dest ".gitignore"             
