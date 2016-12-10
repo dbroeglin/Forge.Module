@@ -29,17 +29,17 @@ Describe "New-ForgeModule" {
         }
 
         It "should create a module directory" {
-            "$TestPath\$Name" | Should Exist
+            "$TestPath\src" | Should Exist
         }
 
         It "should create a module file" {
-            "$TestPath\$Name\$Name.psm1" | Should Exist
-            "$TestPath\$Name\$Name.psm1" | Should Contain "Set-StrictMode"
+            "$TestPath\src\$Name.psm1" | Should Exist
+            "$TestPath\src\$Name.psm1" | Should Contain "Set-StrictMode"
         }
 
         It "should create a manifest file" {
-            "$TestPath\$Name\$Name.psd1" | Should Exist
-            "$TestPath\$Name\$Name.psd1" | Should Contain "Jane Doe"
+            "$TestPath\src\$Name.psd1" | Should Exist
+            "$TestPath\src\$Name.psd1" | Should Contain "Jane Doe"
         }
 
         It "should create a test directory" {
@@ -55,6 +55,29 @@ Describe "New-ForgeModule" {
             "$TestPath\docs\en-US\about_$($Name)_help.txt" | Should Exist
             "$TestPath\docs\en-US\about_$($Name)_help.txt" | Should Contain "    $Name"
         }
+    }
+
+    Context "-Name $Name -Layout ModuleName -Path... "{
+        $TestPath = "TestDrive:\$Name" 
+        New-ForgeModule @Params -Layout ModuleName
+
+        It "should create a project directory" {
+            $TestPath | Should Exist
+        }
+
+        It "should create a module directory" {
+            "$TestPath\$Name" | Should Exist
+        }
+
+        It "should create a module file" {
+            "$TestPath\$Name\$Name.psm1" | Should Exist
+            "$TestPath\$Name\$Name.psm1" | Should Contain "Set-StrictMode"
+        }
+
+        It "should create a manifest file" {
+            "$TestPath\$Name\$Name.psd1" | Should Exist
+            "$TestPath\$Name\$Name.psd1" | Should Contain "Jane Doe"
+        }        
     }
 
     Context "-License Apache" {

@@ -8,11 +8,7 @@ if (!(Get-Module Forge)) {
 . "$PSScriptRoot\..\Forge.Module\New-ForgeModule.ps1"
 . "$PSScriptRoot\..\Forge.Module\$sut"
 
-Describe "New-ForgeModuleFunction" {
-    $ModuleName = "TestModule"
-    $FunctionName = "TestFunction"
-    $TestBase   = Setup -Dir $ModuleName -Passthru
-
+function Generate-Contexts {
     Context "-Name $FunctionName -Parameter a,b,c" {
         $FunctionName = "TestFunction1"
 
@@ -52,7 +48,7 @@ Describe "New-ForgeModuleFunction" {
             Remove-Item -Recurse $ModulePath
             { 
                 New-ForgeModuleFunction -Name $FunctionName
-            } | Should Throw "Module directory 'TestModule' does not exist"
+            } | Should Throw "Could'nt find either 'src' or 'TestModule' directory"
         }
     }
 
@@ -63,7 +59,15 @@ Describe "New-ForgeModuleFunction" {
                 New-ForgeModuleFunction -Name $FunctionName
             } | Should Throw "Test directory 'Tests' does not exist"
         }
-    }
+    }    
+}
+
+Describe "New-ForgeModuleFunction ('ModuleName' layout)" {
+    $ModuleName = "TestModule"
+    $FunctionName = "TestFunction"
+    $TestBase   = Setup -Dir $ModuleName -Passthru
+
+    Generate-Contexts
 
     BeforeEach {
         $Script:OldLocation = Get-Location
@@ -79,3 +83,26 @@ Describe "New-ForgeModuleFunction" {
         Remove-Item -Recurse $TestBase/*
    }
 }
+
+Describe "New-ForgeModuleFunction (src layout)" {
+    $ModuleName = "TestModule"
+    $FunctionName = "TestFunction"
+    $TestBase   = Setup -Dir $ModuleName -Passthru
+
+    Generate-Contexts
+
+    BeforeEach {
+        $Script:OldLocation = Get-Location
+        Set-Location $TestBase
+
+        $ModulePath = New-Item (Join-Path $TestBase src) -Type Container
+        $TestsPath  = New-Item (Join-path $TestBase Tests) -Type Container
+        New-ModuleManifest "src/$ModuleName.psd1"
+    }
+
+    AfterEach {
+        Set-Location $Script:OldLocation
+        Remove-Item -Recurse $TestBase/*
+   }
+}
+

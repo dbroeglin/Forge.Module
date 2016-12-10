@@ -64,13 +64,19 @@ function New-ForgeModuleFunction {
         }
     }
     Process {  
-        $PsdPath = Join-Path (Get-ForgeContext).DestinationPath (Join-Path $ModuleName "$ModuleName.psd1")
-        if (-not (Test-Path -PathType Container $ModuleName)) {
-            throw "Module directory '$ModuleName' does not exist"
+        if (Test-Path -PathType Container src) {
+            $SourceDir = "src"
+        } elseif (Test-Path -PathType Container $ModuleName) {
+            $SourceDir = $ModuleName
+        } else {
+            throw "Could'nt find either 'src' or '$ModuleName' directory"
         }
         if (-not (Test-Path -PathType Container 'Tests')) {
             throw "Test directory 'Tests' does not exist"
         }
+
+        $PsdPath = Join-Path (Get-ForgeContext).DestinationPath (Join-Path $SourceDir "$ModuleName.psd1")
+
         if (!$NoExport -and -not (Test-Path -PathType Leaf $PsdPath)) {
             throw "PSD file '$PsdPath' does not exist"
         }
@@ -83,7 +89,7 @@ function New-ForgeModuleFunction {
 
         $FunctionFilename = "$Name.ps1"
         $TestsFilename    = "$Name.Tests.ps1"
-        Copy-ForgeFile -Source "Function.ps1" -Dest (Join-Path $ModuleName $FunctionFilename)
+        Copy-ForgeFile -Source "Function.ps1" -Dest (Join-Path $SourceDir $FunctionFilename)
         Copy-ForgeFile -Source "Function.Tests.ps1" -Dest (Join-Path Tests $TestsFilename)
         if (!$NoExport) {
             Update-ModuleManifest -Path $PsdPath -FunctionsToExport (

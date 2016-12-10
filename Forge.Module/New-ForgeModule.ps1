@@ -84,7 +84,10 @@ function New-ForgeModule {
         [String]$Editor,
 
         [ValidateSet('', 'PSake', 'InvokeBuild')]
-        [String]$Build
+        [String]$Build,
+
+        [ValidateSet('Src', 'ModuleName')]
+        [String]$Layout = 'Src'
     )
     Begin {
         Initialize-ForgeContext -SourceRoot $Script:SourceRoot `
@@ -97,6 +100,10 @@ function New-ForgeModule {
         $Author = Get-ValueOrGitOrDefault $Author "user.user" "John Doe"
         $Email  = Get-ValueOrGitOrDefault $Email "user.email" "JohnDoe@example.com"
         $CopyrightYear = Get-Date -UFormat %Y
+        switch ($Layout) {
+            "Src"         { $ModuleDir = "src"}
+            "ModuleName"  { $ModuleDir = $Name}
+        }
 
         Set-ForgeBinding @{
             Name          = $Name
@@ -109,10 +116,10 @@ function New-ForgeModule {
         New-ForgeDirectory 
         Copy-ForgeFile -Source "README.md" 
 
-        New-ForgeDirectory -Dest $Name 
-        Copy-ForgeFile -Source "Module.psm1" -Dest "$Name\$Name.psm1" 
+        New-ForgeDirectory -Dest $ModuleDir 
+        Copy-ForgeFile -Source "Module.psm1" -Dest "$ModuleDir\$Name.psm1" 
 
-        New-ModuleManifest -Path "$Path\$Name\$Name.psd1" -RootModule "$Name.psm1" `
+        New-ModuleManifest -Path "$Path\$ModuleDir\$Name.psd1" -RootModule "$Name.psm1" `
             -ModuleVersion "0.1.0" -Description $Description -Author $Author `
             -Copyright "(c) $CopyrightYear $Author. All rights reserved."
 

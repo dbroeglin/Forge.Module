@@ -1,7 +1,7 @@
 # Forge Generator for PowerShell modules
 
 This module contains Forge generators for PowerShell modules.
-`New-ForgeModule` generates a new module and `New-FOrgeModuleFunction` generates a new
+`New-ForgeModule` generates a new module and `New-ForgeModuleFunction` generates a new
 function inside an already created module.
 
 The generator is still quite new (and probably a bit opinionated) parts of the structure
@@ -16,7 +16,7 @@ the rest comes from another similar project https://github.com/PowerShell/Plaste
 
 The following commands should generate a module named `PoshTodo`:
 
-    New-ForgeModule -Name PoshTodo -License MIT -Author Léa -Email lea@example.com
+    New-ForgeModule -Name PoshTodo -License MIT -Author Léa -Email lea@example.com -Layout ModuleName
 
 Would create, in the current directory a scaffold for module `PoshTodo` with the following
 structure:
@@ -56,7 +56,7 @@ Depending on your preferences the module can be generated with two different bui
 
 To generate PSake integration:
 
-    New-ForgeModule -Name PoshTodo -Build PSake
+    New-ForgeModule -Name PoshTodo -Build PSake 
 
 To generate InvokeBuild integration:
 
@@ -64,9 +64,10 @@ To generate InvokeBuild integration:
 
 With all options activated we get:
 
-    New-ForgeModule -Name PoshTodo -License MIT -Author Léa -Email lea@example.com ``
+    New-ForgeModule -Name PoshTodo -License MIT -Author Léa -Email lea@example.com `
         -Editor VSCode -Build PSake `
-        -Description "A Powershell TODO list handler"
+        -Description "A Powershell TODO list handler" ``
+        -Layout ModuleName
 
 Which would generate the following project:
 
