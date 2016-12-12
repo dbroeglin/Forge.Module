@@ -66,7 +66,7 @@ With all options activated we get:
 
     New-ForgeModule -Name PoshTodo -License MIT -Author Léa -Email lea@example.com `
         -Editor VSCode -Build PSake `
-        -Description "A Powershell TODO list handler" ``
+        -Description "A Powershell TODO list handler" `
         -Layout ModuleName
 
 Which would generate the following project:
