@@ -1,3 +1,10 @@
+## 0.4.0 (2016-12-12)
+
+ * Added import for Forge
+ * Aligning more closely to what Plaster generates
+ * Corrected issue with 'FunctionsToExport' update when adding first function
+ * Added directory layout alternative -Layout (either 'src' or 'ModuleName')
+
 ## 0.3.0 (2016-11-29)
 
  * Added an about_Forge.Module topic
