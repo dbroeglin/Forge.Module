@@ -10,6 +10,8 @@ Describe 'Forge.Module' {
     }
 
     AfterEach {
-        Remove-Module $ModuleName
+        # -Force is required because Remove-Module tries to remove 
+        # EPS, Forge and Forge.Module in that order !?!
+        Remove-Module $ModuleName -Force
     }
 }
