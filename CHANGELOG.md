@@ -1,3 +1,7 @@
+## 0.4.1 (2016-12-12)
+
+ * Export only New-ForgeModule and New-ForgeModuleFunction
+
 ## 0.4.0 (2016-12-12)
 
  * Added import for Forge
