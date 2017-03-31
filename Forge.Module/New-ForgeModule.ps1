@@ -129,6 +129,8 @@ function New-ForgeModule {
         New-ForgeDirectory -Dest "$ModuleDir/en-US"
         Copy-ForgeFile -Source "docs/en-US/about_Module_help.txt" -Dest "$ModuleDir/en-US/about_$($Name).help.txt"
 
+        Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
+
         if ($License) {
             Copy-ForgeFile -Source "LICENSE.txt.$License" -Dest "LICENSE.txt" 
         }
@@ -140,13 +142,11 @@ function New-ForgeModule {
                 Copy-ForgeFile -Source "Build.PSake\build.ps1" -Dest "build.ps1"
                 Copy-ForgeFile -Source "Build.PSake\build.psake.ps1" -Dest "build.psake.ps1"
                 Copy-ForgeFile -Source "Build.PSake\build.settings.ps1" -Dest "build.settings.ps1"
-                Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
             }
             "InvokeBuild" {
                 Copy-ForgeFile -Source "Build.InvokeBuild\build.ps1" -Dest "build.ps1"
-                Copy-ForgeFile -Source "Build.InvokeBuild\.build.ps1" -Dest ".build.ps1"
+                Copy-ForgeFile -Source "Build.InvokeBuild\dot.build.ps1" -Dest ".build.ps1"
                 Copy-ForgeFile -Source "Build.InvokeBuild\build.settings.ps1" -Dest "build.settings.ps1"
-                Copy-ForgeFile -Source "ScriptAnalyzerSettings.psd1"
             }
         }
         switch ($Editor) {
