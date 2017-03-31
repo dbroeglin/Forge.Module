@@ -101,8 +101,13 @@ function New-ForgeModule {
         $Email  = Get-ValueOrGitOrDefault $Email "user.email" "JohnDoe@example.com"
         $CopyrightYear = Get-Date -UFormat %Y
         switch ($Layout) {
-            "Src"         { $ModuleDir = "src"}
-            "ModuleName"  { $ModuleDir = $Name}
+            "Src"        { $ModuleDir = "src" }
+            "ModuleName" { $ModuleDir = $Name }
+        }
+        switch ($License) {
+            "Apache"     { $LicenseUri = "http://www.apache.org/licenses/LICENSE-2.0" }
+            "MIT"        { $LicenseUri = "https://opensource.org/licenses/MIT" }
+            default      { $LicenseUri = $Null }
         }
 
         Set-ForgeBinding @{
@@ -119,9 +124,19 @@ function New-ForgeModule {
         New-ForgeDirectory -Dest $ModuleDir 
         Copy-ForgeFile -Source "Module.psm1" -Dest "$ModuleDir\$Name.psm1" 
 
-        New-ModuleManifest -Path "$Path\$ModuleDir\$Name.psd1" -RootModule "$Name.psm1" `
-            -ModuleVersion "0.1.0" -Description $Description -Author $Author `
-            -Copyright "(c) $CopyrightYear $Author. All rights reserved."
+        $ModuleManifestParams = @{
+            Path          = "$Path\$ModuleDir\$Name.psd1" 
+            RootModule    = "$Name.psm1" 
+            ModuleVersion = "0.1.0"
+            Description   = $Description 
+            Author        = $Author 
+            Copyright     = "(c) $CopyrightYear $Author. All rights reserved." 
+        }
+        if ($LicenseUri) {
+            $ModuleManifestParams['LicenseUri'] = $LicenseUri
+        }
+
+        New-ModuleManifest @ModuleManifestParams
 
         New-ForgeDirectory -Dest "Tests" 
         Copy-ForgeFile -Source "Manifest.Tests.ps1" -Dest "Tests" 

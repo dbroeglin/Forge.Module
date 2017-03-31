@@ -8,7 +8,7 @@ if (!(Get-Module Forge)) {
 . "$PSScriptRoot\..\Forge.Module\New-ForgeModule.ps1"
 . "$PSScriptRoot\..\Forge.Module\$sut"
 
-function Generate-Contexts {
+function Invoke-Contexts {
     Context "-Name $FunctionName -Parameter a,b,c" {
         $FunctionName = "TestFunction1"
 
@@ -66,7 +66,7 @@ Describe "New-ForgeModuleFunction ('ModuleName' layout)" {
     $FunctionName = "TestFunction"
     $TestBase   = Setup -Dir $ModuleName -Passthru
 
-    Generate-Contexts
+    Invoke-Contexts
 
     BeforeEach {
         $Script:OldLocation = Get-Location
@@ -90,7 +90,7 @@ Describe "New-ForgeModuleFunction (src layout)" {
     $FunctionName = "TestFunction"
     $TestBase   = Setup -Dir $ModuleName -Passthru
 
-    Generate-Contexts
+    Invoke-Contexts
 
     BeforeEach {
         $Script:OldLocation = Get-Location

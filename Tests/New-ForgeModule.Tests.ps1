@@ -87,6 +87,7 @@ Describe "New-ForgeModule" {
             "$TestPath\LICENSE.txt" | Should Exist
             "$TestPath\LICENSE.txt" | Should Contain "Apache License"            
             "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\src\$Name.psd1" | Should Contain "LicenseUri = 'http://www.apache.org/licenses/LICENSE-2.0'"
         }
     }
 
@@ -97,6 +98,7 @@ Describe "New-ForgeModule" {
             "$TestPath\LICENSE.txt" | Should Exist
             "$TestPath\LICENSE.txt" | Should Contain "MIT License"
             "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\src\$Name.psd1" | Should Contain "LicenseUri = 'https://opensource.org/licenses/MIT'"
         }
     }
 
