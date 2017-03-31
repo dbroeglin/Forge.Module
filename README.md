@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/iqnrxl6xuew4suu8?svg=true)](https://ci.appveyor.com/project/dbroeglin/Forge.Module)
+
 # Forge Generator for PowerShell modules
 
 This module contains Forge generators for PowerShell modules.
