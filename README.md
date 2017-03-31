@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/iqnrxl6xuew4suu8?svg=true)](https://ci.appveyor.com/project/dbroeglin/Forge.Module)
+[![Build status](https://ci.appveyor.com/api/projects/status/iqnrxl6xuew4suu8?svg=true)](https://ci.appveyor.com/project/dbroeglin/forge-module)
 
 # Forge Generator for PowerShell modules
 
