@@ -92,15 +92,20 @@ function New-ForgeModuleFunction {
         Copy-ForgeFile -Source "Function.ps1" -Dest (Join-Path $SourceDir $FunctionFilename)
         Copy-ForgeFile -Source "Function.Tests.ps1" -Dest (Join-Path Tests $TestsFilename)
         if (!$NoExport) {
-            Update-ModuleManifest -Path $PsdPath -FunctionsToExport $(
-                $FunctionsToExport = (Import-PowerShellDataFile $PsdPath)["FunctionsToExport"]
-                if (($Null -eq $FunctionsToExport) -or ("*" -eq $FunctionsToExport)) {
-                    $FunctionsToExport = @()
-                } elseif ($FunctionsToExport -is [String]) {
-                    $FunctionsToExport = @($FunctionsToExport)
-                }
-                $FunctionsToExport + $Name
-            )
+            $FunctionsToExport = (Import-PowerShellDataFile $PsdPath)["FunctionsToExport"]
+
+            if (($Null -eq $FunctionsToExport) -or ("*" -eq $FunctionsToExport)) {
+                $FunctionsToExport = @()
+            } elseif ($FunctionsToExport -is [String]) {
+                $FunctionsToExport = @($FunctionsToExport)
+            }
+            if ($FunctionsToExport -contains $Name) {
+                Write-Verbose "FunctionsToExport already contains '$Name': skipping."
+            } else {
+                Write-Verbose "Adding '$Name' to FunctionsToExport"
+                $FunctionsToExport += $Name
+                Update-ModuleManifest -Path $PsdPath -FunctionsToExport $FunctionsToExport
+            }  
         }
     }
 }
