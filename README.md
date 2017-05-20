@@ -7,7 +7,7 @@ This module contains Forge generators for PowerShell modules.
 function inside an already created module.
 
 The generator is still quite new (and probably a bit opinionated) parts of the structure
-come from the excelent https://github.com/devblackops/NetScaler module and quite a bit of 
+come from the excellent https://github.com/devblackops/NetScaler module and quite a bit of 
 the rest comes from another similar project https://github.com/PowerShell/Plaster
 
 # Installation

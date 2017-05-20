@@ -30,7 +30,11 @@ CompanyName = 'Unknown'
 Copyright = '(c) 2016 Dominique Broeglin. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Forge generator for a PowerShell module'
+Description = @'
+This module contains Forge generators for PowerShell modules. New-ForgeModule generates a new module and New-ForgeModuleFunction generates a new function inside an already created module.
+
+The module generator has options to support files for Git, Visual Studio Code, Pester tests, PSake, Invoke-Build, etc.
+'@
 
 # Minimum version of the Windows PowerShell engine required by this module
 # PowerShellVersion = ''
