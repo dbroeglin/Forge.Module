@@ -25,7 +25,7 @@ Describe "New-ForgeModule" {
 
         It "should create a README.md" {
             "$TestPath\README.md" | Should Exist
-            "$TestPath\README.md" | Should Contain "# TestModule PowerShell module"
+            "$TestPath\README.md" | Should -FileContentMatch "# TestModule PowerShell module"
         }
 
         It "should create a module directory" {
@@ -34,12 +34,12 @@ Describe "New-ForgeModule" {
 
         It "should create a module file" {
             "$TestPath\src\$Name.psm1" | Should Exist
-            "$TestPath\src\$Name.psm1" | Should Contain "Set-StrictMode"
+            "$TestPath\src\$Name.psm1" | Should -FileContentMatch "Set-StrictMode"
         }
 
         It "should create a manifest file" {
             "$TestPath\src\$Name.psd1" | Should Exist
-            "$TestPath\src\$Name.psd1" | Should Contain "Jane Doe"
+            "$TestPath\src\$Name.psd1" | Should -FileContentMatch "Jane Doe"
         }
 
         It "should create a test directory" {
@@ -48,12 +48,12 @@ Describe "New-ForgeModule" {
 
         It "should create manifest tests" {
             "$TestPath\Tests\Manifest.Tests.ps1" | Should Exist
-            "$TestPath\Tests\Manifest.Tests.ps1" | Should Contain "Describe '$Name Manifest"
+            "$TestPath\Tests\Manifest.Tests.ps1" | Should -FileContentMatch "Describe '$Name Manifest"
         }
 
         It "should create an about file" {
             "$TestPath\src\en-US\about_$($Name).help.txt" | Should Exist
-            "$TestPath\src\en-US\about_$($Name).help.txt" | Should Contain "    $Name"
+            "$TestPath\src\en-US\about_$($Name).help.txt" | Should -FileContentMatch "    $Name"
         }
     }
 
@@ -71,12 +71,12 @@ Describe "New-ForgeModule" {
 
         It "should create a module file" {
             "$TestPath\$Name\$Name.psm1" | Should Exist
-            "$TestPath\$Name\$Name.psm1" | Should Contain "Set-StrictMode"
+            "$TestPath\$Name\$Name.psm1" | Should -FileContentMatch "Set-StrictMode"
         }
 
         It "should create a manifest file" {
             "$TestPath\$Name\$Name.psd1" | Should Exist
-            "$TestPath\$Name\$Name.psd1" | Should Contain "Jane Doe"
+            "$TestPath\$Name\$Name.psd1" | Should -FileContentMatch "Jane Doe"
         }        
     }
 
@@ -85,9 +85,9 @@ Describe "New-ForgeModule" {
 
         It "should create an Apache LICENSE.txt file" {
             "$TestPath\LICENSE.txt" | Should Exist
-            "$TestPath\LICENSE.txt" | Should Contain "Apache License"            
-            "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
-            "$TestPath\src\$Name.psd1" | Should Contain "LicenseUri = 'http://www.apache.org/licenses/LICENSE-2.0'"
+            "$TestPath\LICENSE.txt" | Should -FileContentMatch "Apache License"            
+            "$TestPath\LICENSE.txt" | Should -FileContentMatch "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\src\$Name.psd1" | Should -FileContentMatch "LicenseUri = 'http://www.apache.org/licenses/LICENSE-2.0'"
         }
     }
 
@@ -96,9 +96,9 @@ Describe "New-ForgeModule" {
 
         It "should create a MIT LICENSE file" {
             "$TestPath\LICENSE.txt" | Should Exist
-            "$TestPath\LICENSE.txt" | Should Contain "MIT License"
-            "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
-            "$TestPath\src\$Name.psd1" | Should Contain "LicenseUri = 'https://opensource.org/licenses/MIT'"
+            "$TestPath\LICENSE.txt" | Should -FileContentMatch "MIT License"
+            "$TestPath\LICENSE.txt" | Should -FileContentMatch "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\src\$Name.psd1" | Should -FileContentMatch "LicenseUri = 'https://opensource.org/licenses/MIT'"
         }
     }
 
@@ -107,7 +107,7 @@ Describe "New-ForgeModule" {
 
         It "should create a .gitignore file" {
             "$TestPath\.gitignore" | Should Exist
-            "$TestPath\.gitignore" | Should Contain "https://github.com/github/gitignore "
+            "$TestPath\.gitignore" | Should -FileContentMatch "https://github.com/github/gitignore "
         }
     }
 
@@ -144,8 +144,8 @@ Describe "New-ForgeModule" {
 
         It "should create a build.settings.ps1 file" {
             "$TestPath\build.settings.ps1" | Should Exist
-            "$TestPath\build.settings.ps1" | Should Contain '\$ModuleName = "TestModule"'
-            "$TestPath\build.settings.ps1" | Should Contain '\$SrcRootDir *= *"\$PSScriptRoot\\\$ModuleName"'
+            "$TestPath\build.settings.ps1" | Should -FileContentMatch '\$ModuleName = "TestModule"'
+            "$TestPath\build.settings.ps1" | Should -FileContentMatch '\$SrcRootDir *= *"\$PSScriptRoot\\\$ModuleName"'
         }
 
         It "should create a ScriptAnalyzerSettings.psd1 file" {
@@ -166,8 +166,8 @@ Describe "New-ForgeModule" {
 
         It "should create a build.settings.ps1 file" {
             "$TestPath\build.settings.ps1" | Should Exist
-            "$TestPath\build.settings.ps1" | Should Contain '\$ModuleName = "TestModule"'
-            "$TestPath\build.settings.ps1" | Should Contain '\$SrcRootDir *= *"\$PSScriptRoot/\$ModuleName"'
+            "$TestPath\build.settings.ps1" | Should -FileContentMatch '\$ModuleName = "TestModule"'
+            "$TestPath\build.settings.ps1" | Should -FileContentMatch '\$SrcRootDir *= *"\$PSScriptRoot/\$ModuleName"'
         }
 
         It "should create a ScriptAnalyzerSettings.psd1 file" {

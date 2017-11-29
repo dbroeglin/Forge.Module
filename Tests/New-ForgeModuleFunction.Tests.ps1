@@ -18,11 +18,11 @@ function Invoke-Contexts {
 
             New-ForgeModuleFunction -Name $FunctionName -Parameter a1,b1,c1 -NoExport
             $FunctionPath     | Should Exist
-            $FunctionPath     | Should Contain '\$a1,'
-            $FunctionPath     | Should Contain '\$b1,'
-            $FunctionPath     | Should Contain '\$c1'
+            $FunctionPath     | Should -FileContentMatch '\$a1,'
+            $FunctionPath     | Should -FileContentMatch '\$b1,'
+            $FunctionPath     | Should -FileContentMatch '\$c1'
             $FunctionTestPath | Should Exist
-            (Join-Path $ModulePath "$ModuleName.psd1") | Should Not Contain $FunctionName
+            (Join-Path $ModulePath "$ModuleName.psd1") | Should -Not -FileContentMatch $FunctionName
         }
     }
 
